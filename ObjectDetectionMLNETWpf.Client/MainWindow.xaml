@@ -8,14 +8,14 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
-        <Label Content="Emgu CV Prototyping - Simple Cameraview"
+        <Label Content="Object Detection Workflow"
                HorizontalAlignment="Left"
                Margin="10,10,0,0"
                VerticalAlignment="Top"
                FontWeight="Bold"
                FontSize="18"
                Height="34"
-               Width="193" />
+               Width="250" />
 
         <Image Height="365"
                HorizontalAlignment="Left"

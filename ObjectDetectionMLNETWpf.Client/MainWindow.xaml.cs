@@ -24,6 +24,17 @@ namespace ObjectDetectionMLNETWpf.Client
         VideoCapture m_capture = new VideoCapture();
 
 
+        VideoWriter videoWriter;
+
+        double totalFrames;
+        double fps;
+
+        string i = "nameofrecording";
+        string destin = "E:\\rtest\\"; //"C:\\Users\\ITNOA\\Desktop\\savedVideoDHS\\"
+
+        bool fileChanged;
+
+        public int startIndex = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,9 +44,44 @@ namespace ObjectDetectionMLNETWpf.Client
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             dispatcherTimer.Start();
 
+
             m_capture = new VideoCapture();
+
+            fileChanged = true;
+            m_capture.ImageGrabbed += M_capture_ImageGrabbed;
+
         }
 
+        private void M_capture_ImageGrabbed(object sender, EventArgs e)
+        {
+            Console.WriteLine("test: "  + startIndex.ToString());
+            startIndex++;
+
+
+            if (fileChanged)
+            {
+                totalFrames = m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.FrameCount);
+                fps = m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.Fps);
+                int fourcc = Convert.ToInt32(m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.FourCC));
+                int frameHeight = Convert.ToInt32(m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.FrameHeight));
+                int frameWidth = Convert.ToInt32(m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.FrameWidth));
+                string destination = destin + i + ".avi";
+                videoWriter = new VideoWriter(destination, VideoWriter.Fourcc('I', 'Y', 'U', 'V'), fps, new System.Drawing.Size(frameWidth, frameHeight), true);
+                fileChanged = false;
+            }
+
+
+            Mat m = new Mat();
+            m_capture.Retrieve(m);
+           // pictureBox1.Image = m.ToImage<Bgr, byte>().Bitmap;
+            videoWriter.Write(m);
+
+
+
+
+
+            //throw new NotImplementedException();
+        }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
