@@ -30,36 +30,47 @@ namespace ObjectDetectionMLNETWpf.Client
         double fps;
 
         string i = "nameofrecording";
-        string destin = "E:\\rtest\\"; //"C:\\Users\\ITNOA\\Desktop\\savedVideoDHS\\"
+        string destin = "";//"E:\\rtest\\"; //"C:\\Users\\ITNOA\\Desktop\\savedVideoDHS\\"
 
         bool fileChanged;
+        System.Windows.Threading.DispatcherTimer dispatcherTimer; //= new System.Windows.Threading.DispatcherTimer();
 
+        int snapshotIndex = 0;
+        private bool takeSnapshot = false;
+       
         public int startIndex = 0;
+      
+        
+        
         public MainWindow()
         {
             InitializeComponent();
 
-            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);
-            dispatcherTimer.Start();
+            //dispatcherTimer.Start();
+
+            
 
 
             m_capture = new VideoCapture();
 
             fileChanged = true;
-            m_capture.ImageGrabbed += M_capture_ImageGrabbed;
+          
 
         }
 
         private void M_capture_ImageGrabbed(object sender, EventArgs e)
         {
-            Console.WriteLine("test: "  + startIndex.ToString());
-            startIndex++;
+           // Console.WriteLine("test: "  + startIndex.ToString());
+          //  startIndex++;
 
+            destin = SaveRecordingLocation_textbox.Text;
 
             if (fileChanged)
             {
+               // destin = SaveRecordingLocation_textbox.Text;
                 totalFrames = m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.FrameCount);
                 fps = m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.Fps);
                 int fourcc = Convert.ToInt32(m_capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.FourCC));
@@ -82,7 +93,6 @@ namespace ObjectDetectionMLNETWpf.Client
 
             //throw new NotImplementedException();
         }
-
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             using (Image<Bgr, byte> nextFrame = m_capture.QueryFrame().ToImage<Bgr, Byte>())
@@ -91,15 +101,17 @@ namespace ObjectDetectionMLNETWpf.Client
                 {
                     Image<Gray, byte> grayframe = nextFrame.Convert<Gray, byte>();
 
-                    //   var faces = m_cascade.DetectMultiScale(grayframe, 1.1, 3, new System.Drawing.Size(20, 20));
-
-                    //foreach (var face in faces)
-                    //{
-                    //    nextFrame.Draw(face, new Bgr(0, 0, 0), 3);
-                    //}
 
                     TestImage1.Source = ToBitmapSource(nextFrame);
-                    //  TestImage2.Source = ToBitmapSource(nextFrame);
+
+
+                    if (takeSnapshot)
+                    {
+                        nextFrame.Save(SnapshotLocation_textbox.Text + "\\image" + snapshotIndex.ToString().PadLeft(3, '0') + ".jpg");
+                        takeSnapshot = !takeSnapshot;
+                        snapshotIndex++;
+                    }
+           
 
                 }
             }
@@ -128,5 +140,65 @@ namespace ObjectDetectionMLNETWpf.Client
             }
         }
 
+        private void StartWebCamButton_Click(object sender, RoutedEventArgs e)
+        {
+            dispatcherTimer.Start();
+        }
+
+        private void StopWebCamButton_Click(object sender, RoutedEventArgs e)
+        {
+            dispatcherTimer.Stop(); 
+            TestImage1.Source = null;
+        }
+ 
+        private void PauseWebCamButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+
+            //should check if dispatchertimer is enabled
+            //stop displa
+        }
+
+        //##################
+
+
+        private void TakeSnapshotButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            takeSnapshot = !takeSnapshot;
+        } 
+
+
+
+     //###########################
+        private void RecordVideoButton_Click_2(object sender, RoutedEventArgs e)
+        {
+            m_capture.ImageGrabbed += M_capture_ImageGrabbed;
+        }
+
+        private void PlayVideoButton_Click_3(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StopRecordingButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_capture.ImageGrabbed -= M_capture_ImageGrabbed;
+          
+
+
+        }
+
     }
 }
+
+
+
+
+
+
+//   var faces = m_cascade.DetectMultiScale(grayframe, 1.1, 3, new System.Drawing.Size(20, 20));
+
+//foreach (var face in faces)
+//{
+//    nextFrame.Draw(face, new Bgr(0, 0, 0), 3);
+//}
