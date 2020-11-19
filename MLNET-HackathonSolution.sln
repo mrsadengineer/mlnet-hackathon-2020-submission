@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectDetectionMLNETWpf.Client", "ObjectDetectionMLNETWpf.Client\ObjectDetectionMLNETWpf.Client.csproj", "{C1CAE28D-F9AB-4F0D-875D-91DC0C99FC46}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnnxObjectDetection", "OnnxObjectDetection\OnnxObjectDetection.csproj", "{7FE5DFD9-4E84-4135-9C26-BBB031980A91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{0EAE496F-18CE-43A4-8805-34B7CCCEE82F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{0EAE496F-18CE-43A4-8805-34B7CCCEE82F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C1CAE28D-F9AB-4F0D-875D-91DC0C99FC46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1CAE28D-F9AB-4F0D-875D-91DC0C99FC46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1CAE28D-F9AB-4F0D-875D-91DC0C99FC46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1CAE28D-F9AB-4F0D-875D-91DC0C99FC46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FE5DFD9-4E84-4135-9C26-BBB031980A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7FE5DFD9-4E84-4135-9C26-BBB031980A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FE5DFD9-4E84-4135-9C26-BBB031980A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
