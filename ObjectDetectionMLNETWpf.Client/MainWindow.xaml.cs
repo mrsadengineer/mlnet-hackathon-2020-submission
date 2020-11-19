@@ -1,20 +1,13 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.IO;
+using OnnxObjectDetection;
+
+
 
 namespace ObjectDetectionMLNETWpf.Client
 {
@@ -22,8 +15,6 @@ namespace ObjectDetectionMLNETWpf.Client
     public partial class MainWindow : Window
     {
         VideoCapture m_capture = new VideoCapture();
-
-
         VideoWriter videoWriter;
 
         double totalFrames;
@@ -49,17 +40,43 @@ namespace ObjectDetectionMLNETWpf.Client
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);
-            //dispatcherTimer.Start();
-
-            
-
-
-            m_capture = new VideoCapture();
+             m_capture = new VideoCapture();
 
             fileChanged = true;
-          
+            LoadModel();
 
         }
+
+
+
+        private void LoadModel()
+        {
+            // Check for an Onnx model exported from Custom Vision
+            //var customVisionExport = Directory.GetFiles(modelsDirectory, "*.zip").FirstOrDefault();
+
+            //// If there is one, use it.
+            //if (customVisionExport != null)
+            //{
+            //    var customVisionModel = new CustomVisionModel(customVisionExport);
+            //    var modelConfigurator = new OnnxModelConfigurator(customVisionModel);
+
+            //    outputParser = new OnnxOutputParser(customVisionModel);
+            //    customVisionPredictionEngine = modelConfigurator.GetMlNetPredictionEngine<CustomVisionPrediction>();
+            //}
+            //else // Otherwise default to Tiny Yolo Onnx model
+            //{
+            //    var tinyYoloModel = new TinyYoloModel(Path.Combine(modelsDirectory, "TinyYolo2_model.onnx"));
+            //    var modelConfigurator = new OnnxModelConfigurator(tinyYoloModel);
+
+            //    outputParser = new OnnxOutputParser(tinyYoloModel);
+            //    tinyYoloPredictionEngine = modelConfigurator.GetMlNetPredictionEngine<TinyYoloPrediction>();
+            //}
+        }
+
+
+
+
+
 
         private void M_capture_ImageGrabbed(object sender, EventArgs e)
         {
@@ -118,7 +135,7 @@ namespace ObjectDetectionMLNETWpf.Client
         }
 
 
-
+        #region before feature
         [DllImport("gdi32")]
         private static extern int DeleteObject(IntPtr o);
 
@@ -159,17 +176,11 @@ namespace ObjectDetectionMLNETWpf.Client
             //stop displa
         }
 
-        //##################
-
-
         private void TakeSnapshotButton_Click_1(object sender, RoutedEventArgs e)
         {
             takeSnapshot = !takeSnapshot;
         } 
-
-
-
-     //###########################
+  
         private void RecordVideoButton_Click_2(object sender, RoutedEventArgs e)
         {
             m_capture.ImageGrabbed += M_capture_ImageGrabbed;
@@ -188,6 +199,7 @@ namespace ObjectDetectionMLNETWpf.Client
 
         }
 
+        #endregion
     }
 }
 
