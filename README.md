@@ -2,6 +2,8 @@
 ## Desktop App for Capturing Images from a Web Cam
 ##### 2020 ML.NET Hackathon Submission
 
+[Video showcase](https://youtu.be/k5tZmwdKqAQ)
+
 Tool to capture pictures from a web cam to use in creating image classification models with
 ML.NET. I want to build a minimal viable product for developing the training models for image classification 
 and object detection. ML.NET and other tools provide ways to create the training data and models for these
